@@ -1,0 +1,454 @@
+/* ========================================================
+   ESTILOS DO TECLADO DA URNA ELETRÔNICA BRASILEIRA
+   Design fiel, responsivo e adaptado para celulares
+   ======================================================== */
+
+:root {
+  /* Paleta de cores da Urna */
+  --bg-pagina: #0d0e12;
+  --bg-painel: #18191e;
+  --bg-painel-borda: #262830;
+  
+  /* Teclas numéricas */
+  --tecla-num-bg-top: #2a2b33;
+  --tecla-num-bg-bot: #1b1c22;
+  --tecla-num-borda: #3b3d48;
+  --tecla-num-sombra: #0b0c0e;
+  --tecla-num-texto: #ffffff;
+  --tecla-num-braille: #7e8294;
+
+  /* Tecla BRANCO */
+  --tecla-branco-bg-top: #ffffff;
+  --tecla-branco-bg-bot: #e2e8f0;
+  --tecla-branco-borda: #ffffff;
+  --tecla-branco-sombra: #94a3b8;
+  --tecla-branco-texto: #0f172a;
+
+  /* Tecla CORRIGE (Laranja característico da urna) */
+  --tecla-corrige-bg-top: #fb923c;
+  --tecla-corrige-bg-bot: #ea580c;
+  --tecla-corrige-borda: #fdba74;
+  --tecla-corrige-sombra: #9a3412;
+  --tecla-corrige-texto: #000000;
+
+  /* Tecla CONFIRMA (Verde característico da urna) */
+  --tecla-confirma-bg-top: #22c55e;
+  --tecla-confirma-bg-bot: #15803d;
+  --tecla-confirma-borda: #4ade80;
+  --tecla-confirma-sombra: #14532d;
+  --tecla-confirma-texto: #000000;
+
+  /* Tipografia */
+  --fonte-urna: 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+
+  /* Dimensões fluidas */
+  --tecla-num-largura: clamp(54px, 19vw, 76px);
+  --tecla-num-altura: clamp(48px, 15vw, 64px);
+  --gap-grid: clamp(8px, 2.5vw, 14px);
+  --raio-tecla: clamp(4px, 1.2vw, 6px);
+}
+
+/* Reset básico e otimização para telas de toque */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  background-color: var(--bg-pagina);
+  font-family: var(--fonte-urna);
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container de enquadramento geral */
+.urna-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  min-height: 100dvh;
+}
+
+/* ----------------------------------------------------
+   PAINEL DO TECLADO (Carcaça plástica da urna)
+   ---------------------------------------------------- */
+.teclado-painel {
+  position: relative;
+  background: linear-gradient(165deg, #22232a 0%, #17181d 50%, #121317 100%);
+  border: 2px solid var(--bg-painel-borda);
+  border-top-color: #363844;
+  border-bottom-color: #0c0d10;
+  border-radius: clamp(14px, 3.5vw, 20px);
+  padding: clamp(16px, 4.5vw, 28px);
+  width: 100%;
+  max-width: 380px;
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.8);
+  touch-action: manipulation;
+}
+
+/* Textura granulada suave no painel */
+.teclado-painel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 4px 4px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ----------------------------------------------------
+   PARAFUSOS INDUSTRIAIS NOS CANTOS
+   ---------------------------------------------------- */
+.parafuso {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #4a4d58 0%, #1f2128 70%, #0a0b0d 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.8);
+  opacity: 0.65;
+}
+
+.parafuso::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 1px;
+  background-color: #0b0c0e;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.parafuso-tl { top: 8px; left: 8px; }
+.parafuso-tr { top: 8px; right: 8px; }
+.parafuso-bl { bottom: 8px; left: 8px; }
+.parafuso-br { bottom: 8px; right: 8px; }
+
+/* ----------------------------------------------------
+   TOPO DO TECLADO (Marca + Botão Som)
+   ---------------------------------------------------- */
+.teclado-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(12px, 3.5vw, 20px);
+  padding: 0 4px;
+}
+
+.teclado-marca {
+  font-size: clamp(0.7rem, 2.3vw, 0.85rem);
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  color: #717585;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.btn-som {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-som:hover {
+  color: #cbd5e1;
+}
+
+.btn-som:active {
+  transform: scale(0.9);
+}
+
+/* ----------------------------------------------------
+   BOTÕES GERAIS (Mecânica 3D, relevo e clique)
+   ---------------------------------------------------- */
+.tecla {
+  position: relative;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 700;
+  border-radius: var(--raio-tecla);
+  transition: transform 0.04s ease, border-bottom-width 0.04s ease, box-shadow 0.04s ease, filter 0.04s ease;
+  touch-action: manipulation;
+}
+
+/* Efeito de foco acessível para teclado de computador */
+.tecla:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+/* ----------------------------------------------------
+   TECLAS NUMÉRICAS (1 a 9, e 0)
+   ---------------------------------------------------- */
+.teclado-numeros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-grid);
+  justify-items: center;
+  margin-bottom: clamp(16px, 4.5vw, 24px);
+}
+
+.tecla-numero {
+  width: 100%;
+  max-width: var(--tecla-num-largura);
+  height: var(--tecla-num-altura);
+  background: linear-gradient(180deg, var(--tecla-num-bg-top) 0%, var(--tecla-num-bg-bot) 100%);
+  color: var(--tecla-num-texto);
+  border-top: 1px solid var(--tecla-num-borda);
+  border-left: 1px solid #23252c;
+  border-right: 1px solid #23252c;
+  border-bottom: 5px solid var(--tecla-num-sombra);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.16);
+  padding: 4px 2px;
+}
+
+.tecla-digito {
+  font-size: clamp(1.4rem, 5.5vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.tecla-braille {
+  font-size: clamp(0.65rem, 2.2vw, 0.85rem);
+  color: var(--tecla-num-braille);
+  letter-spacing: 1px;
+  line-height: 1;
+  margin-top: 3px;
+  opacity: 0.85;
+}
+
+/* Ponto em alto-relevo de acessibilidade na tecla 5 */
+.tecla-cinco {
+  position: relative;
+}
+
+.tecla-relevo {
+  position: absolute;
+  top: 50%;
+  right: 14%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #64748b;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+/* Espaço vazio ao lado do zero para manter o alinhamento da coluna */
+.espaco-vazio {
+  width: 100%;
+  max-width: var(--tecla-num-largura);
+  height: var(--tecla-num-altura);
+  visibility: hidden;
+}
+
+/* Estado pressionado das teclas numéricas */
+.tecla-numero:active,
+.tecla-numero.tecla-ativa {
+  transform: translateY(4px);
+  border-bottom-width: 1px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.8),
+    inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  filter: brightness(0.92);
+}
+
+/* ----------------------------------------------------
+   TECLAS DE AÇÃO (BRANCO, CORRIGE, CONFIRMA)
+   Fiel à proporção da urna real:
+   - Alinhadas pela base inferior
+   - CONFIRMA é visivelmente mais alta
+   ---------------------------------------------------- */
+.teclado-acoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.15fr;
+  gap: var(--gap-grid);
+  align-items: flex-end;
+  padding-top: 4px;
+}
+
+.tecla-acao {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.5px;
+  padding: 0 4px;
+}
+
+.tecla-texto {
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.1;
+}
+
+/* --- TECLA BRANCO --- */
+.tecla-branco {
+  height: clamp(44px, 13vw, 54px);
+  background: linear-gradient(180deg, var(--tecla-branco-bg-top) 0%, var(--tecla-branco-bg-bot) 100%);
+  color: var(--tecla-branco-texto);
+  border-top: 1px solid var(--tecla-branco-borda);
+  border-left: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  border-bottom: 5px solid var(--tecla-branco-sombra);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.tecla-branco .tecla-texto {
+  font-size: clamp(0.72rem, 2.5vw, 0.95rem);
+}
+
+.tecla-branco:active,
+.tecla-branco.tecla-ativa {
+  transform: translateY(4px);
+  border-bottom-width: 1px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  filter: brightness(0.95);
+}
+
+/* --- TECLA CORRIGE --- */
+.tecla-corrige {
+  height: clamp(44px, 13vw, 54px);
+  background: linear-gradient(180deg, var(--tecla-corrige-bg-top) 0%, var(--tecla-corrige-bg-bot) 100%);
+  color: var(--tecla-corrige-texto);
+  border-top: 1px solid var(--tecla-corrige-borda);
+  border-left: 1px solid #f97316;
+  border-right: 1px solid #ea580c;
+  border-bottom: 5px solid var(--tecla-corrige-sombra);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.tecla-corrige .tecla-texto {
+  font-size: clamp(0.72rem, 2.5vw, 0.95rem);
+}
+
+.tecla-corrige:active,
+.tecla-corrige.tecla-ativa {
+  transform: translateY(4px);
+  border-bottom-width: 1px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  filter: brightness(0.92);
+}
+
+/* --- TECLA CONFIRMA (Maior e mais alta) --- */
+.tecla-confirma {
+  height: clamp(58px, 17vw, 72px);
+  background: linear-gradient(180deg, var(--tecla-confirma-bg-top) 0%, var(--tecla-confirma-bg-bot) 100%);
+  color: var(--tecla-confirma-texto);
+  border-top: 1px solid var(--tecla-confirma-borda);
+  border-left: 1px solid #16a34a;
+  border-right: 1px solid #15803d;
+  border-bottom: 6px solid var(--tecla-confirma-sombra);
+  box-shadow:
+    0 5px 8px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.tecla-confirma .tecla-texto {
+  font-size: clamp(0.78rem, 2.7vw, 1.05rem);
+}
+
+.tecla-confirma:active,
+.tecla-confirma.tecla-ativa {
+  transform: translateY(5px);
+  border-bottom-width: 1px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  filter: brightness(0.92);
+}
+
+/* ----------------------------------------------------
+   ADAPTAÇÃO RESPONSIVA E ORIENTAÇÃO HORIZONTAL (Celular)
+   ---------------------------------------------------- */
+@media (max-height: 520px) and (orientation: landscape) {
+  .urna-wrapper {
+    padding: 6px;
+  }
+
+  .teclado-painel {
+    max-width: 330px;
+    padding: 10px 14px;
+  }
+
+  .teclado-topo {
+    margin-bottom: 6px;
+  }
+
+  :root {
+    --tecla-num-altura: 38px;
+    --gap-grid: 6px;
+  }
+
+  .tecla-digito {
+    font-size: 1.25rem;
+  }
+
+  .tecla-braille {
+    display: none;
+  }
+
+  .tecla-branco,
+  .tecla-corrige {
+    height: 38px;
+  }
+
+  .tecla-confirma {
+    height: 48px;
+  }
+}
+
+/* Ajustes finos para celulares muito pequenos (<= 340px) */
+@media (max-width: 340px) {
+  .teclado-painel {
+    padding: 12px 10px;
+  }
+  
+  .tecla-texto {
+    font-size: 0.68rem !important;
+  }
+}
